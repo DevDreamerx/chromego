@@ -1,0 +1,208 @@
+{
+  "stats": {},
+  "log": {
+    "access": "",
+    "error": "",
+    "loglevel": "warning"
+  },
+  "inbounds": [
+    {
+      "tag": "socks",
+      "port": 20808,
+      "protocol": "socks",
+      "listen": "127.0.0.1",
+      "settings": {
+        "auth": "noauth",
+        "udp": true,
+        "allowTransparent": false
+      },
+      "sniffing": {
+        "enabled": false,
+        "destOverride": [
+          "http",
+          "tls"
+        ]
+      }
+    },
+    {
+      "tag": "http",
+      "port": 20809,
+      "protocol": "http",
+      "listen": "127.0.0.1",
+      "settings": {
+        "udp": false,
+        "allowTransparent": false
+      },
+      "sniffing": {
+        "enabled": true,
+        "destOverride": [
+          "http",
+          "tls"
+        ]
+      }
+    }
+  ],
+  "outbounds": [
+    {
+      "tag": "proxy0",
+      "protocol": "vmess",
+      "settings": {
+        "vnext": [
+          {
+            "address": "de1c.newliving.top",
+            "port": 80,
+            "users": [
+              {
+                "id": "892ebb75-7055-3007-8d16-356e65c6a49a",
+                "alterId": 0,
+                "encryption": "none",
+                "security": "auto",
+                "level": 8,
+                "flow": ""
+              }
+            ]
+          }
+        ]
+      },
+      "streamSettings": {
+        "network": "ws",
+        "security": "",
+        "wsSettings": {
+          "path": "/skincare",
+          "headers": {
+            "Host": ""
+          }
+        },
+        "tlsSettings": {
+          "allowInsecure": false,
+          "serverName": ""
+        }
+      },
+      "mux": {
+        "enabled": false,
+        "concurrency": -1
+      }
+    },
+    {
+      "tag": "proxy1",
+      "protocol": "vmess",
+      "settings": {
+        "vnext": [
+          {
+            "address": "fr1c.newliving.top",
+            "port": 80,
+            "users": [
+              {
+                "id": "892ebb75-7055-3007-8d16-356e65c6a49a",
+                "alterId": 0,
+                "encryption": "none",
+                "security": "auto",
+                "level": 8,
+                "flow": ""
+              }
+            ]
+          }
+        ]
+      },
+      "streamSettings": {
+        "network": "ws",
+        "security": "",
+        "wsSettings": {
+          "path": "/skincare",
+          "headers": {
+            "Host": ""
+          }
+        },
+        "tlsSettings": {
+          "allowInsecure": false,
+          "serverName": ""
+        }
+      },
+      "mux": {
+        "enabled": false,
+        "concurrency": -1
+      }
+    },
+    {
+      "tag": "proxy2",
+      "protocol": "vmess",
+      "settings": {
+        "vnext": [
+          {
+            "address": "fr2c.newliving.top",
+            "port": 80,
+            "users": [
+              {
+                "id": "892ebb75-7055-3007-8d16-356e65c6a49a",
+                "alterId": 0,
+                "encryption": "none",
+                "security": "auto",
+                "level": 8,
+                "flow": ""
+              }
+            ]
+          }
+        ]
+      },
+      "streamSettings": {
+        "network": "ws",
+        "security": "",
+        "wsSettings": {
+          "path": "/skincare",
+          "headers": {
+            "Host": ""
+          }
+        },
+        "tlsSettings": {
+          "allowInsecure": false,
+          "serverName": ""
+        }
+      },
+      "mux": {
+        "enabled": false,
+        "concurrency": -1
+      }
+    },
+    {
+      "tag": "direct",
+      "protocol": "freedom"
+    },
+    {
+      "tag": "block",
+      "protocol": "blackhole",
+      "settings": {
+        "response": {
+          "type": "http"
+        }
+      }
+    }
+  ],
+  "dns": {},
+  "routing": {
+    "domainStrategy": "AsIs",
+    "domainMatcher": "mph",
+    "balancers": [
+      {
+        "tag": "balancer",
+        "selector": [
+          "proxy"
+        ],
+        "strategy": {
+          "type": "leastPing"
+        }
+      }
+    ],
+    "rules": [
+      {
+        "type": "field",
+        "network": "tcp,udp",
+        "balancerTag": "balancer"
+      }
+    ]
+  },
+  "observatory": {
+    "subjectSelector": [
+      "proxy"
+    ]
+  }
+}
